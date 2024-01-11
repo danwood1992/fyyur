@@ -2,8 +2,8 @@ import os
 from flask import Flask
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
-import controllers
 from flask_moment import Moment
+import controllers
 
 # TODO: connect to a local postgresql database
 
