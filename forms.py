@@ -15,6 +15,10 @@ class ShowForm(Form):
         validators=[DataRequired()],
         default= datetime.today()
     )
+    genre_id = StringField(
+        'genre_id'
+    )
+
 
 class VenueForm(Form):
     name = StringField(
@@ -121,11 +125,11 @@ class VenueForm(Form):
         'website_link'
     )
 
-    seeking_talent = BooleanField( 'seeking_talent' )
 
     seeking_description = StringField(
         'seeking_description'
     )
+    seeking_talent = BooleanField( 'seeking_talent' )
 
 
 

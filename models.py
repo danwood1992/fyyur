@@ -15,6 +15,16 @@ class Venue(db.Model):
     seeking_description = db.Column(db.String(500), nullable=True)
     website_link = db.Column(db.String(120), nullable=True)
 
+    def add(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+        if self.id:
+            return True
+
 
 class Artist(db.Model):
     __tablename__ = 'Artist'
@@ -30,6 +40,17 @@ class Artist(db.Model):
     seeking_venue = db.Column(db.Boolean, nullable=True)
     seeking_description = db.Column(db.String(500), nullable=True)
 
+    def add(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+        if self.id:
+            return True
+        
+
 
 class Artist_Genre(db.Model):
     __tablename__ = 'Artist_Genre'
@@ -40,6 +61,16 @@ class Artist_Genre(db.Model):
     genre_id = db.Column(db.Integer, db.ForeignKey('Genre.id'))
     artist = db.relationship('Artist', backref=db.backref('genres', cascade='all, delete'))
     artist_id = db.Column(db.Integer, db.ForeignKey('Artist.id'))
+
+    def add(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+        if self.id:
+            return True
 
 
 
@@ -52,12 +83,37 @@ class Venue_Genre(db.Model):
     genre_id = db.Column(db.Integer, db.ForeignKey('Genre.id'))
     venue = db.relationship('Venue', backref=db.backref('genres', cascade='all, delete'))
     venue_id = db.Column(db.Integer, db.ForeignKey('Venue.id'))
+
+    def add(self):
+        db.session.add(self)
+        db.session.commit()
+        if self.id:
+            return True
     
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+        if self.id:
+            return True
+
 class Genre(db.Model):
     __tablename__ = 'Genre'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
+
+    def add(self):
+        print("adding genre")
+        db.session.add(self)
+        db.session.commit()
+        if self.id:
+            return True
+        
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+        if self.id:
+            return True
 
 
 
@@ -72,6 +128,19 @@ class Show(db.Model):
     venue_id = db.Column(db.Integer, db.ForeignKey('Venue.id'))
     genre = db.relationship('Genre', backref=db.backref('shows', cascade='all, delete'))
     genre_id = db.Column(db.Integer, db.ForeignKey('Genre.id'))
+
+    def add(self):
+        db.session.add(self)
+        db.session.commit()
+        if self.id:
+            return True
+    
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+        if self.id:
+            return True
+    
 
     
 
