@@ -1,5 +1,5 @@
  # TODO: implement any missing fields, as a database migration using Flask-Migrate
-from config import db
+from base import db
 
 class Venue(db.Model):
     __tablename__ = 'Venue'

@@ -1,6 +1,6 @@
 
 from flask import  render_template, request, flash, redirect, url_for
-from config import app
+from base import app
 from mock_data import shows_data, data1, data2, data3, artists_data, venue, artist
 from forms import *
 from models import Venue, Artist
@@ -8,6 +8,12 @@ from models import Venue, Artist
 @app.route('/')
 def index():
   return render_template('pages/home.html')
+
+#  Venues
+#  ----------------------------------------------------------------
+@app.route('/venues')
+def venues():
+  return render_template('pages/venues.html', areas=venue)
 
 @app.route('/venues/create', methods=['GET'])
 def create_venue_form():
