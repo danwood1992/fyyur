@@ -1,8 +1,8 @@
 from base import app, db
-import controllers
+import routes
 
-app.config.from_object('config')
+SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 if __name__ == '__main__':
-    app.run(port=5050, debug=True, host='0.0.0.0')
+    app.run(port=5000, debug=True)
 
