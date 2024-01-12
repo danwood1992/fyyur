@@ -58,20 +58,22 @@ choices=[
 
 
 def seed_venues():
-    for i in range(20):
+    for i in range(15):
         fake = faker.Faker()
+        # i need the same image size
         venue = Venue(
             name = fake.company(),
             address = fake.address(),
             phone = fake.phone_number(),
             facebook_link = fake.url(),
-            image_link = fake.image_url(),
+            image_link = fake.image_url(width=800, height=600),
             website_link = fake.url(),
             seeking_talent = True,
             seeking_description = fake.text(),
-            area = Area(city=Area.city(), state=fake.state())
-        )
+            area = Area(city=fake.city(), state=random.choice(choices)
+        ))
         venue.add()
+
         for i in range(3):
             genre = Genre(name=fake.word())
             genre.add()

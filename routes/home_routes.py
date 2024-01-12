@@ -19,10 +19,10 @@ def flush_database():
     db.session.query(Genre).delete()
 
     db.session.commit()
-    return 'Database flushed!'
+    return render_template('pages/home.html')
 
 @app.route('/seed/')
 def seed():
     seed_database()
-    return 'Database seeded!'
+    return render_template('pages/home.html')
     
