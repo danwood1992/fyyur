@@ -27,16 +27,16 @@
 			  {% if genre.venue.id == venue.id %}
 				<span class="label label-default">{{ genre.genre.name }}</span>
 			  {% endif %}
-
-			{% endfor %}	
-				</p>
-				
-				<h5>Genres:</h5>
-
+			  {% endfor %}	
+			</p>
 			
           </div>
         </div>
       </a>
+	  <form method="post" action="/venues/{{ venue.id }}/delete">
+		<input type="hidden" name="venueid" value="{{venue.id}}">
+		<button type="submit" class="btn btn-danger btn-xs">Delete</button>
+	  </form>
     </li>
     {% endfor %}
   </ul>

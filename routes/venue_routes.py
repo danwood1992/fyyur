@@ -41,7 +41,7 @@ def create_venue_submission():
     seeking_description = form.seeking_description.data,
     area = area,
       )
-  
+ 
   for genre in form.genres.data:
     if Genre.query.filter_by(name=genre).first():
       venue_genre = Venue_Genre(venue=venue, genre=Genre.query.filter_by(name=genre).first())
@@ -51,10 +51,6 @@ def create_venue_submission():
       genre.add()
       venue_genre = Venue_Genre(venue=venue, genre=genre)
       venue_genre.add()
-
-
-  
-  
 
   venue_genre = Venue_Genre(venue=venue, genre=genre)
   venue_genre.add()
@@ -75,13 +71,13 @@ def all_venues():
     print(venues)
     return render_template('pages/all_data.html',venues=venues)
 
-@app.route('/venues/<venue_id>', methods=['DELETE'])
+@app.route('/venues/<venue_id>/delete', methods=['POST'])
 def delete_venue(venue_id):
   venue = Venue.query.get(venue_id)
   venue.delete()
   # BONUS CHALLENGE: Implement a button to delete a Venue on a Venue Page, have it so that
   # clicking that button delete it from the db then redirect the user to the homepage
-  return None
+  return render_template('pages/venues.html')
 
 
 @app.route('/venues/<int:venue_id>/edit', methods=['GET'])
