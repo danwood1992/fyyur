@@ -79,18 +79,20 @@ class Artist_Genre(BaseModel):
 class Venue_Genre(BaseModel):
     __tablename__ = 'Venue_Genre'
 
-
     genre = db.relationship('Genre', backref=db.backref('venues', cascade='all, delete'))
     genre_id = db.Column(db.Integer, db.ForeignKey('Genre.id'))
     venue = db.relationship('Venue', backref=db.backref('genres', cascade='all, delete'))
     venue_id = db.Column(db.Integer, db.ForeignKey('Venue.id'))
 
+    def repr(self):
+        return f'{self.genre.name}'
+
+
 class Genre(BaseModel):
     __tablename__ = 'Genre'
 
-    def __repr__(self):
+    def repr(self):
         return f'{self.name}'
-
 
 
 class Show(BaseModel):

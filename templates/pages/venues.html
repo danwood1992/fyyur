@@ -1,23 +1,51 @@
 {% extends 'layouts/main.html' %}
 {% block title %}Fyyur | Venues{% endblock %}
 {% block content %}
+
 {% for area in areas %}
-<h3>{{ area.name }}</h3>
+<div class="container">
+  <h3 class="text-center">{{ area.name }}</h3>
 
-	<ul class="items">
-		{% for venue in area.venues %}
-		<li>
-			<a href="/venues/{{ venue.id }}">
-				<i class="fas fa-music"></i>
-				<div class="item">
-					<h5>{{ venue.name }}</h5>
-					<p>SHows</p>
-					<p>{{ venue.num_upcoming_shows }}</p>
+  <ul class="list-group">
+    {% for venue in area.venues %}
+    <li class="list-group-item">
+      <a href="/venues/{{ venue.id }}" class="venue-link">
+        <div class="media">
+          <div class="media-left">
+            <i class="fas fa-music fa-3x"></i>
+          </div>
+          <div class="media-body">
+            <h4 class="media-heading">{{ venue.name }}</h4>
+            <p><strong>Shows:</strong> {{ venue.shows|length }}</p>
+            <p><img src="{{ venue.image_link }}" class="img-responsive" alt="Venue Image"></p>
+            <p><strong>Address:</strong> {{ venue.address }}</p>
+            <p><strong>Phone:</strong> {{ venue.phone }}</p>
+            <h5>Genres:</h5>
 
-				</div>
-			</a>
-		</li>
-		{% endfor %}
-	</ul>
+            <p>{% for genre in genres %}
+
+			  {% if genre.venue.id == venue.id %}
+				<span class="label label-default">{{ genre.genre.name }}</span>
+			  {% endif %}
+
+			{% endfor %}	
+				</p>
+				
+				<h5>Genres:</h5>
+
+			
+          </div>
+        </div>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
 {% endfor %}
+
 {% endblock %}
+
+
+
+
+  

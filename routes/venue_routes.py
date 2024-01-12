@@ -6,8 +6,10 @@ from base import app
 @app.route('/venues')
 def venues():
     venues = Venue.query.all()
-
-    return render_template('pages/venues.html', areas=venues)
+    areas = Area.query.all()
+    venue_genres = Venue_Genre.query.all()
+    print(venue_genres)
+    return render_template('pages/venues.html', venues=venues, areas=areas, genres = venue_genres)
 
 @app.route('/venues/create', methods=['GET'])
 def create_venue_form():
@@ -40,9 +42,20 @@ def create_venue_submission():
     area = area,
       )
   
-  genre = Genre(name=form.genres.data)
-  genre.add()
-   
+  for genre in form.genres.data:
+    if Genre.query.filter_by(name=genre).first():
+      venue_genre = Venue_Genre(venue=venue, genre=Genre.query.filter_by(name=genre).first())
+      venue_genre.add()
+    else: 
+      genre = Genre(name=genre)
+      genre.add()
+      venue_genre = Venue_Genre(venue=venue, genre=genre)
+      venue_genre.add()
+
+
+  
+  
+
   venue_genre = Venue_Genre(venue=venue, genre=genre)
   venue_genre.add()
 
