@@ -1,6 +1,61 @@
 from models import Venue, Artist, Show, Show, Genre, Venue_Genre, Artist_Genre, Area
 import faker, random
 
+choices=[
+            ('AL', 'AL'),
+            ('AK', 'AK'),
+            ('AZ', 'AZ'),
+            ('AR', 'AR'),
+            ('CA', 'CA'),
+            ('CO', 'CO'),
+            ('CT', 'CT'),
+            ('DE', 'DE'),
+            ('DC', 'DC'),
+            ('FL', 'FL'),
+            ('GA', 'GA'),
+            ('HI', 'HI'),
+            ('ID', 'ID'),
+            ('IL', 'IL'),
+            ('IN', 'IN'),
+            ('IA', 'IA'),
+            ('KS', 'KS'),
+            ('KY', 'KY'),
+            ('LA', 'LA'),
+            ('ME', 'ME'),
+            ('MT', 'MT'),
+            ('NE', 'NE'),
+            ('NV', 'NV'),
+            ('NH', 'NH'),
+            ('NJ', 'NJ'),
+            ('NM', 'NM'),
+            ('NY', 'NY'),
+            ('NC', 'NC'),
+            ('ND', 'ND'),
+            ('OH', 'OH'),
+            ('OK', 'OK'),
+            ('OR', 'OR'),
+            ('MD', 'MD'),
+            ('MA', 'MA'),
+            ('MI', 'MI'),
+            ('MN', 'MN'),
+            ('MS', 'MS'),
+            ('MO', 'MO'),
+            ('PA', 'PA'),
+            ('RI', 'RI'),
+            ('SC', 'SC'),
+            ('SD', 'SD'),
+            ('TN', 'TN'),
+            ('TX', 'TX'),
+            ('UT', 'UT'),
+            ('VT', 'VT'),
+            ('VA', 'VA'),
+            ('WA', 'WA'),
+            ('WV', 'WV'),
+            ('WI', 'WI'),
+            ('WY', 'WY'),
+        ]
+
+
 
 def seed_venues():
     for i in range(20):
@@ -14,7 +69,7 @@ def seed_venues():
             website_link = fake.url(),
             seeking_talent = True,
             seeking_description = fake.text(),
-            area = Area(city=fake.city(), state=fake.state())
+            area = Area(city=Area.city(), state=fake.state())
         )
         venue.add()
         for i in range(3):
