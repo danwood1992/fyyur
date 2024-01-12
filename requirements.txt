@@ -12,3 +12,4 @@ wtforms==2.3.3
 flask_migrate==2.5.3
 psycopg2-binary
 flask 
+faker

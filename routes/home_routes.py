@@ -2,6 +2,7 @@
 from flask import  render_template
 from base import app, db
 from models import Venue, Area, Artist, Show, Genre, Artist_Genre, Venue_Genre
+from mock_data import seed_database
 
 @app.route('/')
 def index():
@@ -19,3 +20,9 @@ def flush_database():
 
     db.session.commit()
     return 'Database flushed!'
+
+@app.route('/seed/')
+def seed():
+    seed_database()
+    return 'Database seeded!'
+    

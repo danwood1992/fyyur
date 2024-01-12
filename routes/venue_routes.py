@@ -58,7 +58,6 @@ def create_venue_submission():
   if venue and venue_genre:
 
     flash('Venue ' + request.form['name'] + ' was successfully listed!')
-   
     return render_template('pages/home.html')
   else:
     flash('An error occurred. Venue ' + request.form['name'] + ' could not be listed.')
@@ -74,10 +73,10 @@ def all_venues():
 @app.route('/venues/<venue_id>/delete', methods=['POST'])
 def delete_venue(venue_id):
   venue = Venue.query.get(venue_id)
+  print(f"deleting {venue}")
   venue.delete()
-  # BONUS CHALLENGE: Implement a button to delete a Venue on a Venue Page, have it so that
-  # clicking that button delete it from the db then redirect the user to the homepage
-  return render_template('pages/venues.html')
+
+  return render_template('pages/home.html')
 
 
 @app.route('/venues/<int:venue_id>/edit', methods=['GET'])
