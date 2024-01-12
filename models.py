@@ -25,15 +25,25 @@ class BaseModel(db.Model):
 
     def repr(self):
         return f'{self.name}'
-        
-        
     
-        
-class Venue(BaseModel):
-    __tablename__ = 'Venue'
+
+class Area(BaseModel):
+    __tablename__ = 'Area'
 
     city = db.Column(db.String(120))
     state = db.Column(db.String(120))
+
+    def add(self):
+        self.name = f'{self.city}, {self.state}'
+        db.session.add(self)
+        db.session.commit()
+        if self.id:
+            return True
+        
+         
+class Venue(BaseModel):
+    __tablename__ = 'Venue'
+
     address = db.Column(db.String(120))
     phone = db.Column(db.String(120))
     image_link = db.Column(db.String(500))
@@ -41,6 +51,8 @@ class Venue(BaseModel):
     seeking_talent = db.Column(db.Boolean, nullable=True)
     seeking_description = db.Column(db.String(500), nullable=True)
     website_link = db.Column(db.String(120), nullable=True)
+    area = db.relationship('Area', backref=db.backref('venues', cascade='all, delete'))
+    area_id = db.Column(db.Integer, db.ForeignKey('Area.id'))
 
 
 class Artist(BaseModel):

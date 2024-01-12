@@ -1,4 +1,4 @@
-from models import Venue, Venue_Genre, Genre
+from models import Venue, Venue_Genre, Genre, Area
 from forms import VenueForm
 from flask import render_template, request, flash, redirect, url_for
 from base import app
@@ -20,10 +20,16 @@ def create_venue_form():
 def create_venue_submission():
   
   form = VenueForm(request.form)
+
+  exisiting_area = Area.query.filter_by(city=form.city.data, state=form.state.data).first()
+  if exisiting_area:
+    area = exisiting_area
+  else:
+    area = Area(city=form.city.data, state=form.state.data)
+    area.add()
+
   venue = Venue(
     name = form.name.data,
-    city = form.city.data,
-    state = form.state.data,
     address = form.address.data,
     phone = form.phone.data,
     facebook_link = form.facebook_link.data,
@@ -31,9 +37,9 @@ def create_venue_submission():
     website_link = form.website_link.data,
     seeking_talent = form.seeking_talent.data, 
     seeking_description = form.seeking_description.data,
-    )
-  venue.add()
-
+    area = area,
+      )
+  
   genre = Genre(name=form.genres.data)
   genre.add()
    
@@ -49,13 +55,6 @@ def create_venue_submission():
     flash('An error occurred. Venue ' + request.form['name'] + ' could not be listed.')
     return render_template('pages/home.html')
 
-@app.route('/venues/<venue_id>', methods=['DELETE'])
-def delete_venue(venue_id):
-  venue = Venue.query.get(venue_id)
-  venue.delete()
-  # BONUS CHALLENGE: Implement a button to delete a Venue on a Venue Page, have it so that
-  # clicking that button delete it from the db then redirect the user to the homepage
-  return None
 
 @app.route('/all_venues/')
 def all_venues():
@@ -63,6 +62,13 @@ def all_venues():
     print(venues)
     return render_template('pages/all_data.html',venues=venues)
 
+@app.route('/venues/<venue_id>', methods=['DELETE'])
+def delete_venue(venue_id):
+  venue = Venue.query.get(venue_id)
+  venue.delete()
+  # BONUS CHALLENGE: Implement a button to delete a Venue on a Venue Page, have it so that
+  # clicking that button delete it from the db then redirect the user to the homepage
+  return None
 
 
 @app.route('/venues/<int:venue_id>/edit', methods=['GET'])

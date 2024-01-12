@@ -1,17 +1,16 @@
 
 from flask import  render_template
-from base import app
-from models import Venue
+from base import app, db
+from models import Venue, Area, Artist, Show, Genre, Artist_Genre, Venue_Genre
 
 @app.route('/')
 def index():
     return render_template('pages/home.html')
 
-@app.route('/del_all_data/')
-def del_all_data():
-    venues=Venue.query.all()
+@app.route('/flush')
+def flush_database():
+    db.session.query(Show,Area,Artist,Venue,Genre,Artist_Genre,Venue_Genre).delete()
   
-    for venue in venues:
-      venue.delete()
 
-    return render_template('pages/home.html')
+    db.session.commit()
+    return 'Database flushed!'

@@ -2,7 +2,8 @@
 {% block title %}Fyyur | Venues{% endblock %}
 {% block content %}
 {% for area in areas %}
-<h3>{{ area.city }}, {{ area.state }}</h3>
+<h3>{{ area.name }}</h3>
+
 	<ul class="items">
 		{% for venue in area.venues %}
 		<li>
@@ -10,6 +11,9 @@
 				<i class="fas fa-music"></i>
 				<div class="item">
 					<h5>{{ venue.name }}</h5>
+					<p>SHows</p>
+					<p>{{ venue.num_upcoming_shows }}</p>
+
 				</div>
 			</a>
 		</li>
