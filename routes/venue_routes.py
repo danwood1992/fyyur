@@ -1,4 +1,4 @@
-from models import Venue, Venue_Genre, Genre, Area, Show
+from models import Venue, Venue_Genre, Genre, Area
 from forms import VenueForm
 from flask import render_template, request, flash, redirect, url_for
 from base import app
@@ -10,6 +10,17 @@ def venues():
     venue_genres = Venue_Genre.query.all()
     print(venue_genres)
     return render_template('pages/venues.html', venues=venues, areas=areas, genres = venue_genres)
+
+@app.route('/venues/search', methods=['POST'])
+def search_venues():
+    search_term=request.form.get('search_term', '')
+    venues_data = Venue.query.filter(Venue.name.ilike(f'%{search_term}%')).all()
+    response={
+        "count": len(venues_data),
+        "data": venues_data
+    }
+ 
+    return render_template('pages/search_venues.html', results=response, search_term=request.form.get('search_term', ''))
 
 @app.route('/venues/create', methods=['GET'])
 def create_venue_form():
@@ -54,8 +65,6 @@ def create_venue_submission():
       venue_genre = Venue_Genre(venue=venue, genre=genre)
       venue_genre.add()
 
-  
-
   if venue and venue_genre:
 
       flash('Venue ' + request.form['name'] + ' was successfully listed!')
@@ -85,7 +94,6 @@ def delete_venue(venue_id):
   venue.delete()
 
   return render_template('pages/home.html')
-
 
 @app.route('/venues/<int:venue_id>/edit', methods=['GET'])
 def edit_venue(venue_id):

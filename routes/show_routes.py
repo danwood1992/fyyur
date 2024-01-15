@@ -1,6 +1,6 @@
 from flask import render_template, request, flash
 from base import app
-from models import Show
+from models import Show, Artist
 from forms import ShowForm
 
 @app.route('/shows')
@@ -13,7 +13,7 @@ def shows():
 
 @app.route('/shows/create')
 def create_shows():
-    # renders form. do not touch. i do note this is unnecessary
+    # renders form. do not touch
     form = ShowForm()
     return render_template('forms/new_show.html', form=form)
 
@@ -21,6 +21,24 @@ def create_shows():
 def create_show_form():
     form = ShowForm()
     return render_template('forms/new_show.html', form=form)
+
+@app.route('/shows/search', methods=['POST'])
+def search_shows():
+    search_term=request.form.get('search_term', '')
+
+    artists = Artist.query.filter(Artist.name.ilike(f'%{search_term}%')).all()
+
+    artist_shows = []
+
+    for artist in artists:
+        artist_shows += artist.shows
+
+    response={
+        "count": len(artist_shows),
+        "data":  artist_shows
+    }
+
+    return render_template('pages/search_shows.html', results=response, search_term=request.form.get('search_term', ''))
 
 
 @app.route('/shows/create', methods=['POST'])
@@ -33,11 +51,11 @@ def create_show_submission():
       start_time = form.start_time.data,
     )
 
-    success = show.create_show()
+    success, message = show.create_show()
     if success:
-      flash('Show was successfully listed!')
+      flash(message)
     else:
-      flash('An error occurred. Show could not be listed.')
+      flash(message)
 
     return render_template('pages/home.html')
 

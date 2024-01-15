@@ -20,6 +20,20 @@
 		<h3>
 			<a href="/availability/create"><button class="btn btn-default btn-lg">Add availabilty</button></a>
 		</h3>
+		<section>
+			<h3>Recently Listed Artists</h3>
+			<hr>
+			{% for artist in recent_artists %}
+	
+
+			<div class="row">
+			
+				<div class="col-sm-8">
+					<h4><a href="/artists/{{ artist.id }}">{{ artist.name }}</a></h4>
+				</div>
+			</div>
+			{% endfor %}
+		</section>
 	</div>
 	<div class="col-sm-6 hidden-sm hidden-xs">
 		<img id="front-splash" src="{{ url_for('static',filename='img/front-splash.jpg') }}" alt="Front Photo of Musical Band" />

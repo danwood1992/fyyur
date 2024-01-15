@@ -190,18 +190,23 @@ class Show(BaseModel):
     genre_id = db.Column(db.Integer, db.ForeignKey('Genre.id'))
 
     def create_show(self):
+        try: 
+            available_dates = Artist_Availability.query.filter_by(artist_id=self.artist_id)
+        
+            for date in available_dates:
+                if self.start_time >= date.start_time and self.start_time <= date.end_time:
+                
+                    db.session.add(self)
+                    db.session.commit()
+                    return True
+                else:
+                 
+                    return (False, f"Artist not available, Check available dates ")
 
-        available_dates = Artist_Availability.query.filter_by(artist_id=self.artist_id)
-        print(f"debug available dates: {available_dates}")
-        for date in available_dates:
-            if self.start_time >= date.start_time and self.start_time <= date.end_time:
-              
-                db.session.add(self)
-                db.session.commit()
-                return True
-            else:
-                print("Artist not available")
-                return False
+        except:
+      
+            return (False, "Artist not available, Check available dates")
+        
         
     
     @property

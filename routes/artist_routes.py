@@ -1,8 +1,7 @@
 from base import app
-from models import Artist, Genre, Artist_Genre, Show, Venue, Artist_Availability
+from models import Artist, Genre, Artist_Genre, Artist_Availability
 from forms import ArtistForm
 from flask import render_template, request, flash, redirect, url_for
-import datetime
 
 @app.route('/artists')
 def artists():
@@ -77,6 +76,8 @@ def edit_artist(artist_id):
     artist = Artist.query.get(artist_id)
     artist_genres = Artist_Genre.query.filter_by(artist_id=artist_id).all()
 
+    print(artist_genres)
+
     form = ArtistForm(
         name = artist.name,
         city = artist.city,
@@ -87,7 +88,7 @@ def edit_artist(artist_id):
         website_link = artist.website_link,
 
         seeking_description = artist.seeking_description,
-        genres = artist_genres
+        genres = [genre.genre.name for genre in artist_genres]
 
     )
 
@@ -113,15 +114,3 @@ def edit_artist_submission(artist_id):
 
     return redirect(url_for('show_artist', artist_id=artist_id))
 
-def active_routes(active):
-    if active:
-        artists()
-        create_artist_form()
-        create_artist_submission()
-        search_artists()
-        show_artist()
-        edit_artist()
-        edit_artist_submission()
-        pass
-    else:
-        pass
