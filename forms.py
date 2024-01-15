@@ -132,6 +132,23 @@ class VenueForm(Form):
     seeking_talent = BooleanField( 'seeking_talent' )
 
 
+class AvailabilityForm(Form):
+
+    artist_id = StringField(
+        'artist_id', validators=[DataRequired()]
+    )
+    start_time = DateTimeField(
+        'start_time',
+        validators=[DataRequired()],
+        default= datetime.today()
+    )
+    end_time = DateTimeField(
+        'end_time',
+        validators=[DataRequired()],
+        default= datetime.today()
+    )
+    
+
 
 class ArtistForm(Form):
     name = StringField(

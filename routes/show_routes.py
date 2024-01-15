@@ -13,7 +13,7 @@ def shows():
 
 @app.route('/shows/create')
 def create_shows():
-    # renders form. do not touch.
+    # renders form. do not touch. i do note this is unnecessary
     form = ShowForm()
     return render_template('forms/new_show.html', form=form)
 
@@ -33,7 +33,7 @@ def create_show_submission():
       start_time = form.start_time.data,
     )
 
-    success = show.add()
+    success = show.create_show()
     if success:
       flash('Show was successfully listed!')
     else:

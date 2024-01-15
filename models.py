@@ -88,6 +88,7 @@ class Artist(BaseModel):
     website_link = db.Column(db.String(120), nullable=True)
     seeking_venue = db.Column(db.Boolean, nullable=True)
     seeking_description = db.Column(db.String(500), nullable=True)
+ 
 
     @property
     def past_shows(self):
@@ -100,6 +101,54 @@ class Artist(BaseModel):
     @property
     def past_shows_count(self):
         return len(self.past_shows)
+    
+class Artist_Availability(BaseModel):
+    __tablename__ = 'Artist_Availabilty'
+
+    start_time = db.Column(db.DateTime)
+    end_time = db.Column(db.DateTime)
+    artist = db.relationship('Artist', backref=db.backref('availability', cascade='all, delete'))
+    artist_id = db.Column(db.Integer, db.ForeignKey('Artist.id'))
+
+    def repr(self):
+        return f'{self.artist.name} at {self.venue.name}'
+    
+    @property
+    def artist_name(self):
+        return self.artist.name
+    
+    @property
+    def start_day(self):
+        return self.start_time.strftime("%A")
+    
+    @property
+    def start_month(self):
+        return self.start_time.strftime("%B")
+    
+    @property
+    def start_date(self):
+        return self.start_time.strftime("%d")
+    
+    @property
+    def start_year(self):
+        return self.start_time.strftime("%Y")
+    
+    @property
+    def end_day(self):
+        return self.end_time.strftime("%A")
+    
+    @property
+    def end_month(self):
+        return self.end_time.strftime("%B")
+    
+    @property
+    def end_date(self):
+        return self.end_time.strftime("%d") 
+    
+    @property
+    def end_year(self):
+        return self.end_time.strftime("%Y")
+
 
 class Artist_Genre(BaseModel):
     __tablename__ = 'Artist_Genre'
@@ -140,8 +189,20 @@ class Show(BaseModel):
     genre = db.relationship('Genre', backref=db.backref('shows', cascade='all, delete'))
     genre_id = db.Column(db.Integer, db.ForeignKey('Genre.id'))
 
-    def repr(self):
-        return f'{self.artist.name} at {self.venue.name}'
+    def create_show(self):
+
+        available_dates = Artist_Availability.query.filter_by(artist_id=self.artist_id)
+        print(f"debug available dates: {available_dates}")
+        for date in available_dates:
+            if self.start_time >= date.start_time and self.start_time <= date.end_time:
+              
+                db.session.add(self)
+                db.session.commit()
+                return True
+            else:
+                print("Artist not available")
+                return False
+        
     
     @property
     def artist_name(self):
@@ -154,8 +215,20 @@ class Show(BaseModel):
     @property
     def start_time_formatted(self):
         return self.start_time.strftime("%m/%d/%Y, %H:%M:%S")
+    
+    @property
+    def start_day(self):
+        return self.start_time.strftime("%A")
+    
+    @property
+    def start_month(self):
+        return self.start_time.strftime("%B")
+    
+    @property
+    def start_date(self):
+        return self.start_time.strftime("%d")
  
- 
+
 
     
 

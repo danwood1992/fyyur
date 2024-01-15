@@ -6,11 +6,11 @@
     <div class="col-sm-4">
         <div class="tile tile-show">
             <img src="{{ show.artist.image_link }}" alt="Artist Image" />
-           <!--add start time-->
+       
             <h5><a href="/artists/{{ show.artist_id }}">{{ show.artist.name }}</a></h5>
-            <p>playing at</p>
-            <h5><a href="/venues/{{ show.venue_id }}">{{ show.venue.name }}</a></h5>
-        </div>
+            <h6>@ {{ show.start_time }} </h6>
+            <h4>Playing at - <a href="/venues/{{ show.venue_id }}">{{ show.venue.name }}</a> </h4>
+             </div>
     </div>
     {% endfor %}
 </div>

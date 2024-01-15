@@ -1,5 +1,5 @@
 from base import app
-from models import Artist, Genre, Artist_Genre, Show, Venue
+from models import Artist, Genre, Artist_Genre, Show, Venue, Artist_Availability
 from forms import ArtistForm
 from flask import render_template, request, flash, redirect, url_for
 import datetime
@@ -67,47 +67,9 @@ def search_artists():
 @app.route('/artists/<int:artist_id>')
 def show_artist(artist_id):
     artist = Artist.query.get(artist_id)
-    genres = Genre.query.join(Artist_Genre).filter(Artist_Genre.artist_id == artist_id).all()
-    artist_shows = Show.query.filter_by(artist_id=artist_id).all()
+    availabilities = Artist_Availability.query.filter_by(artist_id=artist_id).all()
 
-    print(f"debug artist_shows: {artist_shows}")
-   
-    print(f"debug website link: {artist.website_link}")
-    
-    artist = {
-        'id': artist.id,
-        'name': artist.name,
-        'genres': genres,
-        'city': artist.city,
-        'state': artist.state,
-        'phone': artist.phone,
-        'facebook_link': artist.facebook_link,
-        'image_link': artist.image_link,
-        'website_link': artist.website_link,
-        'seeking_venue': artist.seeking_venue,
-        'seeking_description': artist.seeking_description,
-        'upcoming_shows': [],
-        'upcoming_shows_count': 0,
-        'past_shows': [],
-        'past_shows_count': 0
-    }
-
-    for show in artist_shows:
-            venue = Venue.query.get(show.venue_id)
-            show_data = {
-                'venue_id': venue.id,
-                'venue_name': venue.name,
-                'venue_image_link': venue.image_link,
-                'start_time': show.start_time.strftime('%Y-%m-%d %H:%M:%S')
-            }
-            if show.start_time > datetime.datetime.now():
-                artist['upcoming_shows'].append(show_data)
-                artist['upcoming_shows_count'] += 1
-            else:
-                artist['past_shows'].append(show_data)
-                artist['past_shows_count'] += 1
-
-    return render_template('pages/show_artist.html', artist=artist)
+    return render_template('pages/show_artist.html', artist=artist, availabilities=availabilities)
 
 
 @app.route('/artists/<int:artist_id>/edit', methods=['GET'])
