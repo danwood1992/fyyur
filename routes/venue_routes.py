@@ -24,25 +24,27 @@ def create_venue_submission():
   form = VenueForm(request.form)
 
   exisiting_area = Area.query.filter_by(city=form.city.data, state=form.state.data).first()
+
   if exisiting_area:
-    area = exisiting_area
+      area = exisiting_area
   else:
-    area = Area(city=form.city.data, state=form.state.data)
-    area.add()
+      area = Area(city=form.city.data, state=form.state.data)
+      area.add()
 
   venue = Venue(
-    name = form.name.data,
-    address = form.address.data,
-    phone = form.phone.data,
-    facebook_link = form.facebook_link.data,
-    image_link = form.image_link.data, 
-    website_link = form.website_link.data,
-    seeking_talent = form.seeking_talent.data, 
-    seeking_description = form.seeking_description.data,
-    area = area,
-      )
+      name = form.name.data,
+      address = form.address.data,
+      phone = form.phone.data,
+      facebook_link = form.facebook_link.data,
+      image_link = form.image_link.data, 
+      website_link = form.website_link.data,
+      seeking_talent = form.seeking_talent.data, 
+      seeking_description = form.seeking_description.data,
+      area = area,
+        )
  
   for genre in form.genres.data:
+    print(f"genre: {genre}")
     if Genre.query.filter_by(name=genre).first():
       venue_genre = Venue_Genre(venue=venue, genre=Genre.query.filter_by(name=genre).first())
       venue_genre.add()
@@ -52,16 +54,15 @@ def create_venue_submission():
       venue_genre = Venue_Genre(venue=venue, genre=genre)
       venue_genre.add()
 
-  venue_genre = Venue_Genre(venue=venue, genre=genre)
-  venue_genre.add()
+  
 
   if venue and venue_genre:
 
-    flash('Venue ' + request.form['name'] + ' was successfully listed!')
-    return render_template('pages/home.html')
+      flash('Venue ' + request.form['name'] + ' was successfully listed!')
+      return render_template('pages/home.html')
   else:
-    flash('An error occurred. Venue ' + request.form['name'] + ' could not be listed.')
-    return render_template('pages/home.html')
+      flash('An error occurred. Venue ' + request.form['name'] + ' could not be listed.')
+      return render_template('pages/home.html')
 
 
 @app.route('/all_venues/')
