@@ -15,8 +15,7 @@
 			{% endfor %}
 		</div>
 		<p>
-			<i class="fas fa-globe-americas"></i> {{ venue.city }}, {{ venue.state }}
-		</p>
+			<i class="fas fa-globe-americas"></i> {{ venue.area.name }}
 		<p>
 			<i class="fas fa-map-marker"></i> {% if venue.address %}{{ venue.address }}{% else %}No Address{% endif %}
 		</p>
@@ -54,7 +53,7 @@
 			<div class="tile tile-show">
 				<img src="{{ show.artist.image_link }}" alt="Show Artist Image" />
 				<h5><a href="/artists/{{ show.artist_id }}">{{ show.artist_name }}</a></h5>
-				<h6>{{ show.start_time|datetime('full') }}</h6>
+				<h6>{{ show.start_time_formatted}}</h6>
 			</div>
 		</div>
 		{% endfor %}
@@ -66,9 +65,9 @@
 		{%for show in venue.past_shows %}
 		<div class="col-sm-4">
 			<div class="tile tile-show">
-				<img src="{{ show.artist_image_link }}" alt="Show Artist Image" />
+				<img src="{{ show.artist. image_link }}" alt="Show Artist Image" />
 				<h5><a href="/artists/{{ show.artist_id }}">{{ show.artist_name }}</a></h5>
-				<h6>{{ show.start_time|datetime('full') }}</h6>
+				<h6>{{ show.start_time_formatted }}</h6>
 			</div>
 		</div>
 		{% endfor %}

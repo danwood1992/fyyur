@@ -1,4 +1,5 @@
 from base import db
+from datetime import datetime
 
 class BaseModel(db.Model):
     __abstract__ = True
@@ -54,6 +55,27 @@ class Venue(BaseModel):
     area = db.relationship('Area', backref=db.backref('venues', cascade='all, delete'))
     area_id = db.Column(db.Integer, db.ForeignKey('Area.id'))
 
+    @property
+    def past_shows(self):
+        return Show.query.filter_by(venue_id=self.id).filter(Show.start_time < datetime.now()).all()
+    
+    @property
+    def upcoming_shows(self):
+        return Show.query.filter_by(venue_id=self.id).filter(Show.start_time > datetime.now()).all()
+    
+    @property
+    def past_shows_count(self):
+        return len(self.past_shows)
+    
+    @property
+    def upcoming_shows_count(self):
+        return len(self.upcoming_shows)
+    
+    @property
+    def genres(self):
+        return [genre.genre.name for genre in self.genres]
+    
+
 
 class Artist(BaseModel):
     __tablename__ = 'Artist'
@@ -66,6 +88,18 @@ class Artist(BaseModel):
     website_link = db.Column(db.String(120), nullable=True)
     seeking_venue = db.Column(db.Boolean, nullable=True)
     seeking_description = db.Column(db.String(500), nullable=True)
+
+    @property
+    def past_shows(self):
+        return Show.query.filter_by(artist_id=self.id).filter(Show.start_time < datetime.now()).all()
+    
+    @property
+    def upcoming_shows(self):
+        return Show.query.filter_by(artist_id=self.id).filter(Show.start_time > datetime.now()).all()
+    
+    @property
+    def past_shows_count(self):
+        return len(self.past_shows)
 
 class Artist_Genre(BaseModel):
     __tablename__ = 'Artist_Genre'
@@ -105,6 +139,25 @@ class Show(BaseModel):
     venue_id = db.Column(db.Integer, db.ForeignKey('Venue.id'))
     genre = db.relationship('Genre', backref=db.backref('shows', cascade='all, delete'))
     genre_id = db.Column(db.Integer, db.ForeignKey('Genre.id'))
+
+    def repr(self):
+        return f'{self.artist.name} at {self.venue.name}'
+    
+    @property
+    def artist_name(self):
+        return self.artist.name
+    
+    @property
+    def venue_name(self):
+        return self.venue.name
+    
+    @property
+    def start_time_formatted(self):
+        return self.start_time.strftime("%m/%d/%Y, %H:%M:%S")
+ 
+ 
+
+    
 
 
     

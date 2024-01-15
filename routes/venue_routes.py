@@ -1,4 +1,4 @@
-from models import Venue, Venue_Genre, Genre, Area
+from models import Venue, Venue_Genre, Genre, Area, Show
 from forms import VenueForm
 from flask import render_template, request, flash, redirect, url_for
 from base import app
@@ -68,7 +68,8 @@ def create_venue_submission():
 @app.route('/venues/<venue_id>')
 def show_venue(venue_id):
     venue = Venue.query.get(venue_id)
-    print(venue)
+    print(f"venue: {venue}, {venue.past_shows}")
+
     return render_template('pages/show_venue.html', venue=venue)
 
 @app.route('/all_venues/')
