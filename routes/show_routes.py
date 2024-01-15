@@ -40,7 +40,6 @@ def search_shows():
 
     return render_template('pages/search_shows.html', results=response, search_term=request.form.get('search_term', ''))
 
-
 @app.route('/shows/create', methods=['POST'])
 def create_show_submission():
 
@@ -61,13 +60,3 @@ def create_show_submission():
 
     return render_template('pages/home.html')
 
-
-def active_routes(active):
-    if active:
-        shows()
-        create_shows()
-        create_show_form()
-        create_show_submission()
-        pass
-    else:
-        pass

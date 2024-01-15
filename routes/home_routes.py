@@ -9,7 +9,7 @@ def index():
     recent_artists = Artist.query.order_by(Artist.id.desc()).limit(10).all()
     return render_template('pages/home.html', recent_artists=recent_artists)
 
-@app.route('/flush')
+@app.route('/flush/123')
 def flush_database():
     db.session.query(Show).delete()
     db.session.query(Venue_Genre).delete()
@@ -23,7 +23,7 @@ def flush_database():
     db.session.commit()
     return render_template('pages/home.html')
 
-@app.route('/seed/')
+@app.route('/seed/123')
 def seed():
     seed_database()
     return render_template('pages/home.html')

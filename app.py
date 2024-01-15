@@ -1,4 +1,4 @@
-from base import app, db
+from base import app
 import filters
 import config
 from datetime import datetime

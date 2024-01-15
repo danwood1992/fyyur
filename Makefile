@@ -10,7 +10,7 @@ make-initial-migration:
     flask db migrate -m "Initial migration."
 
 make-migration:
-	flask db migrate -m "$(m)"
+	flask db migrate 
 
 upgrade-db:
 	flask db upgrade
