@@ -2,7 +2,7 @@ from base import app
 import filters
 import config
 from datetime import datetime
-from routes import availability_routes, venue_routes, artist_routes, show_routes, home_routes
+from routes import availability_routes, venue_routes, artist_routes, show_routes, home_routes, dev_routes
 
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 

@@ -92,8 +92,7 @@
             <li {% if request.endpoint == 'venues' %} class="active" {% endif %}><a href="{{ url_for('venues') }}">Venues</a></li>
             <li {% if request.endpoint == 'artists' %} class="active" {% endif %}><a href="{{ url_for('artists') }}">Artists</a></li>
             <li {% if request.endpoint == 'shows' %} class="active" {% endif %}><a href="{{ url_for('shows') }}">Shows</a></li>
-            <li {% if request.endpoint == 'flush' %} class="active" {% endif %}><a href="{{ url_for('flush_database') }}">Flush</a></li>
-            <li {% if request.endpoint == 'seed' %} class="active" {% endif %}><a href="{{ url_for('seed') }}">Seed</a></li>
+
           </ul>
         </div><!--/.nav-collapse -->
       </div>
