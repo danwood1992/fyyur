@@ -90,26 +90,27 @@ def delete_venue(venue_id):
 @app.route('/venues/<int:venue_id>/edit', methods=['GET'])
 def edit_venue(venue_id):
     venue = Venue.query.get(venue_id)
-    form = VenueForm()
+    form = VenueForm(
+      name = venue.name,
+      address = venue.address,
+      phone = venue.phone,
+      facebook_link = venue.facebook_link,
+      image_link = venue.image_link, 
+      website_link = venue.website_link,
+      seeking_talent = venue.seeking_talent, 
+      seeking_description = venue.seeking_description,
+      genres = venue.genres,
+      city = venue.area.city,
+    )
     
-    # TODO: populate form with values from venue with ID <venue_id>
     return render_template('forms/edit_venue.html', form=form, venue=venue)
 
 @app.route('/venues/<int:venue_id>/edit', methods=['POST'])
 def edit_venue_submission(venue_id):
-    # TODO: take values from the form submitted, and update existing
-    # venue record with ID <venue_id> using the new attributes
+    venue = Venue.query.get(venue_id)
+    form = VenueForm(request.form)
+
+    
     return redirect(url_for('show_venue', venue_id=venue_id))
 
-def active_routes(active):
-    if active:
-        venues()
-        create_venue_form()
-        create_venue_submission()
-        delete_venue()
-        all_venues()
-        edit_venue()
-        edit_venue_submission()
-        pass
-    else:
-        pass
+
