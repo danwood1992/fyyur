@@ -51,11 +51,13 @@ def create_show_submission():
       start_time = form.start_time.data,
     )
 
-    success, message = show.create_show()
+    success = show.create_show()
     if success:
-      flash(message)
+        message = f'Show was successfully listed!'
+        flash(message)
     else:
-      flash(message)
+        message = f'Artist is not available at that time! Check their availability'
+        flash(message)
 
     return render_template('pages/home.html')
 
