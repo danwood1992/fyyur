@@ -90,6 +90,7 @@ def delete_venue(venue_id):
 @app.route('/venues/<int:venue_id>/edit', methods=['GET'])
 def edit_venue(venue_id):
     venue = Venue.query.get(venue_id)
+    genres = [genre.genre.name for genre in venue.genres]
     form = VenueForm(
       name = venue.name,
       address = venue.address,
@@ -99,7 +100,7 @@ def edit_venue(venue_id):
       website_link = venue.website_link,
       seeking_talent = venue.seeking_talent, 
       seeking_description = venue.seeking_description,
-      genres = venue.genres,
+      genres = genres,
       city = venue.area.city,
     )
     
