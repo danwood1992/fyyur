@@ -63,7 +63,13 @@ def create_venue_submission():
   else:
       flash('An error occurred. Venue ' + request.form['name'] + ' could not be listed.')
       return render_template('pages/home.html')
+  
 
+@app.route('/venues/<venue_id>')
+def show_venue(venue_id):
+    venue = Venue.query.get(venue_id)
+    print(venue)
+    return render_template('pages/show_venue.html', venue=venue)
 
 @app.route('/all_venues/')
 def all_venues():
